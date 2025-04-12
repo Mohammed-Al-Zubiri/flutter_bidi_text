@@ -6,6 +6,9 @@
 .gitignore
 pubspec.lock
 
+# Build files
+build/
+
 # Test and documentation source files that aren't needed in the published package
 assets/demos/
 
