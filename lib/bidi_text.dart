@@ -23,7 +23,6 @@ import 'package:flutter_bidi_text/helpers/bidi_helper.dart';
 /// Note: While a [textDirection] parameter can be provided, it will be ignored in favor
 /// of the automatically detected direction.
 class BidiText extends Text {
-
   const BidiText(
     super.data, {
     super.key,
@@ -41,6 +40,7 @@ class BidiText extends Text {
     super.selectionColor,
     this.sampleLength = 50,
   });
+
   /// Maximum number of characters to sample for direction detection.
   ///
   /// If null, the entire text will be analyzed.

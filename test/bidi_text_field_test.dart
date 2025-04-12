@@ -48,7 +48,8 @@ void main() {
       expect(detectedDirection, TextDirection.rtl);
     });
 
-    testWidgets('Direction changes with text input', (WidgetTester tester) async {
+    testWidgets('Direction changes with text input',
+        (WidgetTester tester) async {
       final List<TextDirection?> detectedDirections = [];
       final controller = TextEditingController();
 
@@ -82,14 +83,18 @@ void main() {
 
       // We should have recorded null (initial: LTR), (unchanged: LTR), RTL, LTR
       expect(detectedDirections.length, greaterThanOrEqualTo(3));
-      expect(detectedDirections.last, TextDirection.ltr); // Last should be (locale-default: LTR) for empty text
+      expect(
+          detectedDirections.last,
+          TextDirection
+              .ltr); // Last should be (locale-default: LTR) for empty text
 
       // Check that we got both LTR and RTL in our detected directions
       expect(detectedDirections.contains(TextDirection.ltr), true);
       expect(detectedDirections.contains(TextDirection.rtl), true);
     });
 
-    testWidgets('Sample length affects direction detection', (WidgetTester tester) async {
+    testWidgets('Sample length affects direction detection',
+        (WidgetTester tester) async {
       TextDirection detectedDirection = TextDirection.ltr;
       // RTL text at beginning, but mostly LTR text
       final String mixedText = 'مرحبا${' Hello world' * 20}';
@@ -130,7 +135,8 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('Controller changes trigger direction updates', (WidgetTester tester) async {
+    testWidgets('Controller changes trigger direction updates',
+        (WidgetTester tester) async {
       final List<TextDirection?> detectedDirections = [];
       final controller = TextEditingController();
 
@@ -168,7 +174,8 @@ void main() {
       expect(detectedDirections.contains(TextDirection.rtl), true);
     });
 
-    testWidgets('New controller updates direction', (WidgetTester tester) async {
+    testWidgets('New controller updates direction',
+        (WidgetTester tester) async {
       final controller1 = TextEditingController(text: 'Hello world');
       final controller2 = TextEditingController(text: 'مرحبا بالعالم');
       TextDirection? detectedDirection;

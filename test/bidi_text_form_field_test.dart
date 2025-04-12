@@ -89,7 +89,8 @@ void main() {
       expect(detectedDirection, TextDirection.ltr);
     });
 
-    testWidgets('Controller provided externally works', (WidgetTester tester) async {
+    testWidgets('Controller provided externally works',
+        (WidgetTester tester) async {
       final controller = TextEditingController(text: 'Initial text');
       String? formValue;
 
@@ -161,7 +162,8 @@ void main() {
       expect(find.text('Initial text'), findsOneWidget);
     });
 
-    testWidgets('Sample length affects direction detection', (WidgetTester tester) async {
+    testWidgets('Sample length affects direction detection',
+        (WidgetTester tester) async {
       TextDirection detectedDirection = TextDirection.ltr;
       // RTL text at beginning, but mostly LTR text
       final String mixedText = 'مرحبا${' Hello world' * 10}';
@@ -200,7 +202,8 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('FormField state is updated properly', (WidgetTester tester) async {
+    testWidgets('FormField state is updated properly',
+        (WidgetTester tester) async {
       final formKey = GlobalKey<FormState>();
       late String formFieldValue;
 

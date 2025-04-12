@@ -25,7 +25,6 @@ linter:
     - avoid_unused_constructor_parameters
     - avoid_void_async
     - directives_ordering
-    - package_api_docs
     - prefer_const_constructors
     - prefer_final_fields
     - prefer_final_locals

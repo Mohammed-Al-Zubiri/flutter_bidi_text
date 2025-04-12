@@ -155,7 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Current direction: ${_lastDirection?.name ?? "none"}'),
+                      Text(
+                          'Current direction: ${_lastDirection?.name ?? "none"}'),
                       const SizedBox(height: 8),
                       BidiTextField(
                         decoration: const InputDecoration(
@@ -218,7 +219,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Form submitted successfully')),
+                                const SnackBar(
+                                    content:
+                                        Text('Form submitted successfully')),
                               );
                             }
                           },

@@ -26,7 +26,6 @@ import 'package:flutter_bidi_text/helpers/bidi_helper.dart';
 /// )
 /// ```
 class BidiTextField extends TextField {
-
   const BidiTextField({
     super.key,
     super.groupId = EditableText,
@@ -118,6 +117,7 @@ class BidiTextField extends TextField {
               !identical(keyboardType, TextInputType.text),
           'Use keyboardType TextInputType.multiline when using TextInputAction.newline on a multiline TextField.',
         );
+
   /// Maximum number of characters to sample for direction detection.
   ///
   /// If null, the entire text will be analyzed.

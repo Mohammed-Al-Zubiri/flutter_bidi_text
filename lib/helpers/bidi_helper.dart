@@ -15,7 +15,8 @@ class BidiHelper {
 
   /// Character sets for identifying strong LTR and RTL characters.
   /// These patterns are simplified for performance and small code size.
-  static const String _LTR_CHARS = r'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590'
+  static const String _LTR_CHARS =
+      r'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590'
       r'\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF';
   static const String _RTL_CHARS = r'\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
 
@@ -39,13 +40,15 @@ class BidiHelper {
   /// Determines if the first character in [text] with strong directionality is
   /// RTL. If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool startsWithRtl(String text, [bool isHtml = false]) {
-    return RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]').hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any LTR characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool hasAnyLtr(String text, [bool isHtml = false]) {
-    return RegExp(r'[' '$_LTR_CHARS' r']').hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(r'[' '$_LTR_CHARS' r']')
+        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Estimates the directionality of [text] using the best known
@@ -58,7 +61,8 @@ class BidiHelper {
   /// Otherwise, if any words are strongly or weakly LTR, returns LTR.
   /// Otherwise, returns null, which is used to mean `neutral`.
   /// Numbers and URLs are counted as weakly LTR.
-  static TextDirection? estimateDirectionOfText(String text, {bool isHtml = false}) {
+  static TextDirection? estimateDirectionOfText(String text,
+      {bool isHtml = false}) {
     text = isHtml ? stripHtmlIfNeeded(text) : text;
     var rtlCount = 0;
     var total = 0;
