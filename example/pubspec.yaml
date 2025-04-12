@@ -1,0 +1,22 @@
+name: flutter_bidi_text_example
+description: Example app for the flutter_bidi_text package
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.18.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Use the local package
+  flutter_bidi_text:
+    path: ../
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

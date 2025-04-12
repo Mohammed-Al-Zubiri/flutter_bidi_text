@@ -1,0 +1,25 @@
+# Dart/Flutter related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+pubspec.lock
+
+# IDE related
+.idea/
+.vscode/
+*.iml
+
+# Platform specific
+android/
+ios/
+web/
+windows/
+linux/
+macos/
+
+# System files
+.DS_Store

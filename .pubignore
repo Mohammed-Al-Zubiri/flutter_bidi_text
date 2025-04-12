@@ -1,0 +1,28 @@
+# Development files
+.dart_tool/
+.idea/
+.vscode/
+.github/
+.gitignore
+pubspec.lock
+
+# Test and documentation source files that aren't needed in the published package
+assets/demos/
+
+# Example app platform folders (to reduce package size)
+example/android/
+example/ios/
+example/linux/
+example/macos/
+example/windows/
+example/web/
+example/build/
+example/.dart_tool/
+example/pubspec.lock
+example/.packages
+
+# Other files not needed for the package
+*.log
+.DS_Store
+.metadata
+CONTRIBUTING.md
