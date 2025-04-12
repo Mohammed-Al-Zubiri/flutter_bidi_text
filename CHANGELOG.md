@@ -23,3 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Removed deprecated `scribbleEnabled` parameter from BidiTextField and BidiTextFormField
 - Improved compatibility with latest Flutter versions
+
+## 1.0.2 - 2025-04-13
+
+### Fixed
+- Applied standard Dart formatting to source code files.
