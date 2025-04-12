@@ -1,6 +1,6 @@
 name: flutter_bidi_text
 description: "A Flutter package that provides text widgets with automatic bidirectional text direction detection for multilingual applications."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Mohammed-Al-Zubiri/flutter_bidi_text
 repository: https://github.com/Mohammed-Al-Zubiri/flutter_bidi_text
 issue_tracker: https://github.com/Mohammed-Al-Zubiri/flutter_bidi_text/issues

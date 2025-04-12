@@ -17,3 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite for all widgets
 - Documentation with examples
 - Utility functions for text direction detection
+
+## 1.0.1 - 2025-04-12
+
+### Fixed
+- Removed deprecated `scribbleEnabled` parameter from BidiTextField and BidiTextFormField
+- Improved compatibility with latest Flutter versions
