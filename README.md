@@ -16,6 +16,7 @@ A Flutter package that provides text widgets with automatic bidirectional (RTL/L
 - **Direction Change Callbacks**: Be notified when text direction changes.
 - **Text Widget Types**:
   - `BidiText`: A drop-in replacement for Flutter's `Text` widget
+  - `BidiRichText`: A drop-in replacement for Flutter's `RichText` widget with `TextSpan` support
   - `BidiTextField`: An input field with automatic direction detection
   - `BidiTextFormField`: A form field with automatic direction detection
 - **Support for Mixed Content**: Handles mixed RTL/LTR content intelligently.
@@ -32,13 +33,53 @@ If your app supports multiple languages with different writing directions, you'v
 
 This package solves all these problems by automatically detecting and setting the appropriate text direction in real-time.
 
+## Technical Background
+
+**Bidirectional text** (often abbreviated as **BiDi**) refers to text that contains both right-to-left (RTL) and left-to-right (LTR) text directionalities. This is common in multilingual applications where, for example, English text (LTR) is mixed with Arabic or Hebrew text (RTL).
+
+### Understanding the Unicode Bidirectional Algorithm
+
+The [Unicode Standard](https://www.unicode.org/reports/tr9/) provides a sophisticated algorithm for handling bidirectional text. Unicode characters are categorized into different types:
+
+- **Strong Characters**: Characters with a definite direction (e.g., Latin letters for LTR, Arabic/Hebrew letters for RTL)
+- **Weak Characters**: Characters with vague direction (e.g., numbers, arithmetic symbols)
+- **Neutral Characters**: Characters with indeterminate direction (e.g., whitespace, common punctuation)
+- **Explicit Formatting**: Special Unicode control characters that override default behavior
+
+### How This Package Works
+
+This package implements a practical text direction detection algorithm that:
+
+1. **Analyzes Character Content**: Scans the text for strong directional characters
+2. **Counts Directional Runs**: Groups consecutive characters with the same directionality
+3. **Applies Threshold Logic**: Determines overall direction based on the ratio of RTL to LTR content
+4. **Handles Mixed Content**: Makes intelligent decisions when text contains both directions
+
+The algorithm uses a threshold-based approach: if RTL characters exceed approximately 40% of strongly directional characters, the text is considered RTL; otherwise, it defaults to LTR. This provides robust handling of real-world multilingual content.
+
+### Real-World Example
+
+Consider the text: `"Hello مرحبا 123"` (English + Arabic + numbers)
+- "Hello" → Strong LTR characters
+- "مرحبا" → Strong RTL characters  
+- "123" → Weak characters (inherit direction from context)
+
+The package analyzes the ratio of strong characters and determines the appropriate text direction automatically.
+
+### Further Reading
+
+For a deeper understanding of bidirectional text handling, see:
+- [Bidirectional text on Wikipedia](https://en.wikipedia.org/wiki/Bidirectional_text)
+- [Unicode Bidirectional Algorithm (UAX #9)](https://www.unicode.org/reports/tr9/)
+- [W3C Guidelines on Bidirectional Text](https://www.w3.org/International/articles/inline-bidi-markup/)
+
 ## Installation
 
 Add this dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_bidi_text: ^1.0.0
+  flutter_bidi_text: ^1.1.0
 ```
 
 Then run:
@@ -56,6 +97,7 @@ The widgets in this package are designed as direct replacements for Flutter's st
 | Flutter Widget | Bidirectional Replacement |
 |----------------|---------------------------|
 | `Text`         | `BidiText`                |
+| `RichText`     | `BidiRichText`            |
 | `TextField`    | `BidiTextField`           |
 | `TextFormField`| `BidiTextFormField`       |
 
@@ -89,6 +131,91 @@ BidiText(
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/Mohammed-Al-Zubiri/flutter_bidi_text/main/assets/demos/bidi_text.jpg" alt="BidiText Widget Demo" width="300"/>
+</div>
+
+### BidiRichText
+
+A drop-in replacement for Flutter's `RichText` widget with automatic direction detection for styled text using `TextSpan`:
+
+```dart
+import 'package:flutter_bidi_text/flutter_bidi_text.dart';
+
+// English text with different styles (LTR)
+BidiRichText(
+  text: TextSpan(
+    style: TextStyle(fontSize: 16, color: Colors.black),
+    children: [
+      TextSpan(text: 'This is '),
+      TextSpan(
+        text: 'bold',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      TextSpan(text: ' and this is '),
+      TextSpan(
+        text: 'italic',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+      TextSpan(text: ' text.'),
+    ],
+  ),
+)
+
+// Arabic text with different styles (RTL)
+BidiRichText(
+  text: TextSpan(
+    style: TextStyle(fontSize: 16, color: Colors.black),
+    children: [
+      TextSpan(text: 'هذا نص '),
+      TextSpan(
+        text: 'عريض',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      TextSpan(text: ' وهذا نص '),
+      TextSpan(
+        text: 'مائل',
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
+    ],
+  ),
+)
+
+// Mixed content with colors
+BidiRichText(
+  text: TextSpan(
+    style: TextStyle(fontSize: 16, color: Colors.black),
+    children: [
+      TextSpan(
+        text: 'English text',
+        style: TextStyle(color: Colors.blue),
+      ),
+      TextSpan(text: ' with '),
+      TextSpan(
+        text: 'نص عربي',
+        style: TextStyle(color: Colors.red),
+      ),
+    ],
+  ),
+)
+
+// With icons using WidgetSpan
+BidiRichText(
+  text: TextSpan(
+    style: TextStyle(fontSize: 16, color: Colors.black),
+    children: [
+      TextSpan(text: 'Rate us '),
+      WidgetSpan(
+        child: Icon(Icons.star, size: 18, color: Colors.amber),
+      ),
+      TextSpan(text: ' on the app store!'),
+    ],
+  ),
+)
+```
+
+The `BidiRichText` widget analyzes all text content in the `TextSpan` tree (including nested children) to determine the overall text direction, while ignoring `WidgetSpan` elements.
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Mohammed-Al-Zubiri/flutter_bidi_text/main/assets/demos/bidi_rich_text.jpg" alt="BidiRichText Widget Demo" width="300"/>
 </div>
 
 ### BidiTextField

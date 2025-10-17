@@ -139,6 +139,155 @@ class _MyHomePageState extends State<MyHomePage> {
 
               const SizedBox(height: 24),
 
+              // BidiRichText examples
+              const Text(
+                'BidiRichText Widget Examples:',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('English with styled spans (LTR):'),
+                      const SizedBox(height: 4),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        width: double.infinity,
+                        child: BidiRichText(
+                          text: const TextSpan(
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            children: [
+                              TextSpan(text: 'This is '),
+                              TextSpan(
+                                text: 'bold',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(text: ' and this is '),
+                              TextSpan(
+                                text: 'italic',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              ),
+                              TextSpan(text: ' text.'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text('Arabic with styled spans (RTL):'),
+                      const SizedBox(height: 4),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        width: double.infinity,
+                        child: BidiRichText(
+                          text: const TextSpan(
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            children: [
+                              TextSpan(text: 'هذا نص '),
+                              TextSpan(
+                                text: 'عريض',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(text: ' وهذا نص '),
+                              TextSpan(
+                                text: 'مائل',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              ),
+                              TextSpan(text: '.'),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text('Mixed content with colors:'),
+                      const SizedBox(height: 4),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        width: double.infinity,
+                        child: BidiRichText(
+                          text: const TextSpan(
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: 'English text',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                              TextSpan(text: ' with '),
+                              TextSpan(
+                                text: 'نص عربي',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              TextSpan(text: ' and more '),
+                              TextSpan(
+                                text: 'English',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      const Text('With icons (WidgetSpan):'),
+                      const SizedBox(height: 4),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        width: double.infinity,
+                        child: BidiRichText(
+                          text: const TextSpan(
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            children: [
+                              TextSpan(text: 'Rate us '),
+                              WidgetSpan(
+                                child: Icon(Icons.star,
+                                    size: 18, color: Colors.amber),
+                              ),
+                              TextSpan(text: ' '),
+                              WidgetSpan(
+                                child: Icon(Icons.star,
+                                    size: 18, color: Colors.amber),
+                              ),
+                              TextSpan(text: ' '),
+                              WidgetSpan(
+                                child: Icon(Icons.star,
+                                    size: 18, color: Colors.amber),
+                              ),
+                              TextSpan(text: ' on the app store!'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
               // BidiTextField example
               const Text(
                 'BidiTextField Widget:',
