@@ -33,7 +33,7 @@ class BidiTextField extends TextField {
     super.focusNode,
     super.undoController,
     super.decoration = const InputDecoration(),
-    TextInputType? keyboardType,
+    super.keyboardType,
     super.textInputAction,
     super.textCapitalization = TextCapitalization.none,
     super.style,
