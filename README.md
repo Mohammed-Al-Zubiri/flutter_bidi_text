@@ -79,7 +79,7 @@ Add this dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  flutter_bidi_text: ^1.1.0
+  flutter_bidi_text: ^1.1.2
 ```
 
 Then run:
