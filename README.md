@@ -227,7 +227,7 @@ import 'package:flutter_bidi_text/flutter_bidi_text.dart';
 
 BidiTextField(
   decoration: InputDecoration(hintText: 'Enter text'),
-  onDirectionChanged: (TextDirection? direction) {
+  onDirectionChanged: (TextDirection direction) {
     print('Text direction changed to: $direction');
   },
   // sampleLength: 50, // Analyze first 50 characters (default)
@@ -256,7 +256,7 @@ BidiTextFormField(
     }
     return null;
   },
-  onDirectionChanged: (TextDirection? direction) {
+  onDirectionChanged: (TextDirection direction) {
     print('Text direction changed to: $direction');
   },
   // sampleLength: 50,
@@ -335,7 +335,7 @@ BidiTextField(
       onPressed: sendMessage,
     ),
   ),
-  onDirectionChanged: (direction) {
+  onDirectionChanged: (TextDirection direction) {
     // Align the send button based on text direction
     setState(() {
       sendButtonAlignment = direction == TextDirection.rtl

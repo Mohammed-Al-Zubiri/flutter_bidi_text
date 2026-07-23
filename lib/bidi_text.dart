@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bidi_text/helpers/bidi_helper.dart';
 
 /// A text widget that automatically detects and sets text direction based on content.

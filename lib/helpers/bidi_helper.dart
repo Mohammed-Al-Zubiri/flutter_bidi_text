@@ -14,11 +14,11 @@ class BidiHelper {
   static const double _RTL_DETECTION_THRESHOLD = 0.40;
 
   /// Character sets for identifying strong LTR and RTL characters.
-  /// These patterns are simplified for performance and small code size.
+  /// These patterns use proper Dart Unicode escape sequences (\uXXXX).
   static const String _LTR_CHARS =
-      r'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590'
-      r'\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF';
-  static const String _RTL_CHARS = r'\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
+      'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590'
+      '\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF';
+  static const String _RTL_CHARS = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
 
   // Pre-compiled RegExp patterns for better performance.
   // These are compiled once and reused across all method calls.

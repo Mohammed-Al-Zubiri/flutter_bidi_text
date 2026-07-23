@@ -120,7 +120,7 @@ class BidiTextFormField extends FormField<String> {
     ContentInsertionConfiguration? contentInsertionConfiguration,
     WidgetStatesController? statesController,
     Clip clipBehavior = Clip.hardEdge,
-    bool canRequestFocus = true,
+    bool stylusHandwritingEnabled = true,
     this.onDirectionChanged,
     this.sampleLength = 50,
   })  : assert(initialValue == null || controller == null),
@@ -230,7 +230,7 @@ class BidiTextFormField extends FormField<String> {
                 dragStartBehavior: dragStartBehavior,
                 contentInsertionConfiguration: contentInsertionConfiguration,
                 clipBehavior: clipBehavior,
-                canRequestFocus: canRequestFocus,
+                stylusHandwritingEnabled: stylusHandwritingEnabled,
                 onDirectionChanged: onDirectionChanged,
                 sampleLength: sampleLength,
               ),
@@ -263,12 +263,14 @@ class BidiTextFormField extends FormField<String> {
   /// and accuracy for most text.
   final int? sampleLength;
 
-  /// Callback that is called when the text direction changes
+  /// Callback that is called when the text direction changes.
   ///
   /// This callback is triggered when the text direction is automatically
   /// detected based on the content and changes from LTR to RTL or vice versa.
   ///
-  /// The callback receives the new text direction, or `null` if the field is empty.
+  /// The callback always receives a non-null [TextDirection]. When the field is
+  /// empty or the content is directionally neutral, the ambient
+  /// [Directionality.of] value is used as the fallback direction.
   final ValueChanged<TextDirection>? onDirectionChanged;
 
   static Widget _defaultContextMenuBuilder(

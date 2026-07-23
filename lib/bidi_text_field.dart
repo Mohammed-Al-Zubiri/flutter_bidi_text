@@ -89,7 +89,7 @@ class BidiTextField extends TextField {
     super.restorationId,
     super.enableIMEPersonalizedLearning = true,
     super.contextMenuBuilder = _defaultContextMenuBuilder,
-    super.canRequestFocus = true,
+    super.stylusHandwritingEnabled = true,
     super.spellCheckConfiguration,
     super.magnifierConfiguration,
     this.sampleLength = 50,
@@ -128,12 +128,14 @@ class BidiTextField extends TextField {
   /// and accuracy for most text.
   final int? sampleLength;
 
-  /// Callback that is called when the text direction changes
+  /// Callback that is called when the text direction changes.
   ///
   /// This callback is triggered when the text direction is automatically
   /// detected based on the content and changes from LTR to RTL or vice versa.
   ///
-  /// The callback receives the new text direction, or `null` if the field is empty.
+  /// The callback always receives a non-null [TextDirection]. When the field is
+  /// empty or the content is directionally neutral, the ambient
+  /// [Directionality.of] value is used as the fallback direction.
   final ValueChanged<TextDirection>? onDirectionChanged;
 
   static Widget _defaultContextMenuBuilder(
@@ -247,8 +249,10 @@ class _BidiTextFieldState extends State<BidiTextField> {
   Widget build(BuildContext context) {
     return TextField(
       key: widget.key,
+      groupId: widget.groupId,
       controller: _controller,
       focusNode: widget.focusNode,
+      undoController: widget.undoController,
       decoration: widget.decoration,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
@@ -261,6 +265,7 @@ class _BidiTextFieldState extends State<BidiTextField> {
       readOnly: widget.readOnly,
       showCursor: widget.showCursor,
       autofocus: widget.autofocus,
+      statesController: widget.statesController,
       obscuringCharacter: widget.obscuringCharacter,
       obscureText: widget.obscureText,
       autocorrect: widget.autocorrect,
@@ -278,10 +283,13 @@ class _BidiTextFieldState extends State<BidiTextField> {
       onAppPrivateCommand: widget.onAppPrivateCommand,
       inputFormatters: widget.inputFormatters,
       enabled: widget.enabled,
+      ignorePointers: widget.ignorePointers,
       cursorWidth: widget.cursorWidth,
       cursorHeight: widget.cursorHeight,
       cursorRadius: widget.cursorRadius,
+      cursorOpacityAnimates: widget.cursorOpacityAnimates,
       cursorColor: widget.cursorColor,
+      cursorErrorColor: widget.cursorErrorColor,
       selectionHeightStyle: widget.selectionHeightStyle,
       selectionWidthStyle: widget.selectionWidthStyle,
       keyboardAppearance: widget.keyboardAppearance,
@@ -290,17 +298,19 @@ class _BidiTextFieldState extends State<BidiTextField> {
       enableInteractiveSelection: widget.enableInteractiveSelection,
       selectionControls: widget.selectionControls,
       onTap: widget.onTap,
+      onTapAlwaysCalled: widget.onTapAlwaysCalled,
       onTapOutside: widget.onTapOutside,
       mouseCursor: widget.mouseCursor,
       buildCounter: widget.buildCounter,
       scrollController: widget.scrollController,
       scrollPhysics: widget.scrollPhysics,
       autofillHints: widget.autofillHints,
+      contentInsertionConfiguration: widget.contentInsertionConfiguration,
       clipBehavior: widget.clipBehavior,
       restorationId: widget.restorationId,
       enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
       contextMenuBuilder: widget.contextMenuBuilder,
-      canRequestFocus: widget.canRequestFocus,
+      stylusHandwritingEnabled: widget.stylusHandwritingEnabled,
       spellCheckConfiguration: widget.spellCheckConfiguration,
       magnifierConfiguration: widget.magnifierConfiguration,
     );

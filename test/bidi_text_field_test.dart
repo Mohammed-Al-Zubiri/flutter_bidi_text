@@ -226,4 +226,128 @@ void main() {
       expect(detectedDirection, TextDirection.rtl);
     });
   });
+
+  // ---------------------------------------------------------------------------
+  // Regression tests — parameter forwarding (Commit 1 / v1.1.2)
+  // Ensures every parameter accepted by BidiTextField reaches the inner TextField.
+  // ---------------------------------------------------------------------------
+  group('BidiTextField Parameter Forwarding Regression Tests', () {
+    testWidgets('groupId is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      const customGroupId = 'my-group';
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(groupId: customGroupId),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.groupId, customGroupId);
+    });
+
+    testWidgets('undoController is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      final undoController = UndoHistoryController();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(undoController: undoController),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.undoController, undoController);
+      undoController.dispose();
+    });
+
+    testWidgets('statesController is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      final statesController = WidgetStatesController();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(statesController: statesController),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.statesController, statesController);
+      statesController.dispose();
+    });
+
+    testWidgets('ignorePointers is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(ignorePointers: true),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.ignorePointers, true);
+    });
+
+    testWidgets('cursorErrorColor is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(cursorErrorColor: Color(0xFFFF0000)),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.cursorErrorColor, const Color(0xFFFF0000));
+    });
+
+    testWidgets('onTapAlwaysCalled is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(onTapAlwaysCalled: true),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.onTapAlwaysCalled, true);
+    });
+
+    testWidgets('cursorOpacityAnimates is forwarded to inner TextField',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(cursorOpacityAnimates: false),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.cursorOpacityAnimates, false);
+    });
+
+    testWidgets(
+        'stylusHandwritingEnabled replaces canRequestFocus and is forwarded',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiTextField(stylusHandwritingEnabled: false),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final tf = tester.widget<TextField>(find.byType(TextField));
+      expect(tf.stylusHandwritingEnabled, false);
+    });
+  });
 }
