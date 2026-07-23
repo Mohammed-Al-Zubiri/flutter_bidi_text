@@ -20,6 +20,16 @@ class BidiHelper {
       r'\u0800-\u1FFF\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF';
   static const String _RTL_CHARS = r'\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC';
 
+  // Pre-compiled RegExp patterns for better performance.
+  // These are compiled once and reused across all method calls.
+  static final RegExp _htmlPattern = RegExp(r'<[^>]*>|&[^;]+;');
+  static final RegExp _startsWithRtlPattern =
+      RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]');
+  static final RegExp _hasAnyLtrPattern = RegExp(r'[' '$_LTR_CHARS' r']');
+  static final RegExp _whitespacePattern = RegExp(r'\s+');
+  static final RegExp _urlPattern = RegExp(r'^https?://');
+  static final RegExp _digitPattern = RegExp(r'\d');
+
   /// Returns the input [text] with spaces instead of HTML tags or HTML escapes,
   /// which is helpful for text directionality estimation.
   ///
@@ -34,21 +44,20 @@ class BidiHelper {
     // The regular expression is simplified for an HTML tag (opening or
     // closing) or an HTML escape. We might want to skip over such expressions
     // when estimating the text directionality.
-    return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
+    return text.replaceAll(_htmlPattern, ' ');
   }
 
   /// Determines if the first character in [text] with strong directionality is
   /// RTL. If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool startsWithRtl(String text, [bool isHtml = false]) {
-    return RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]')
+    return _startsWithRtlPattern
         .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any LTR characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool hasAnyLtr(String text, [bool isHtml = false]) {
-    return RegExp(r'[' '$_LTR_CHARS' r']')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return _hasAnyLtrPattern.hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Estimates the directionality of [text] using the best known
@@ -69,17 +78,17 @@ class BidiHelper {
     var hasWeaklyLtr = false;
     // Split a string into 'words' for directionality estimation based on
     // relative word counts.
-    for (var token in text.split(RegExp(r'\s+'))) {
+    for (final token in text.split(_whitespacePattern)) {
       if (startsWithRtl(token)) {
         rtlCount++;
         total++;
-      } else if (RegExp(r'^http://').hasMatch(token)) {
+      } else if (_urlPattern.hasMatch(token)) {
         // Checked if token looks like something that must always be LTR even in
-        // RTL text, such as a URL.
+        // RTL text, such as a URL (http:// or https://).
         hasWeaklyLtr = true;
       } else if (hasAnyLtr(token)) {
         total++;
-      } else if (RegExp(r'\d').hasMatch(token)) {
+      } else if (_digitPattern.hasMatch(token)) {
         // Checked if token contains any numerals.
         hasWeaklyLtr = true;
       }
