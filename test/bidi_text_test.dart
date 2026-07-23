@@ -158,4 +158,73 @@ void main() {
       expect(bidiText.textDirection, TextDirection.ltr);
     });
   });
+
+  group('BidiText.rich Widget Tests', () {
+    testWidgets('LTR InlineSpan detected as LTR', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiText.rich(
+              TextSpan(children: [
+                TextSpan(text: 'Hello '),
+                TextSpan(text: 'world'),
+              ]),
+            ),
+          ),
+        ),
+      );
+      final BidiText bidiText = tester.widget(find.byType(BidiText));
+      expect(bidiText.textDirection, TextDirection.ltr);
+    });
+
+    testWidgets('RTL InlineSpan detected as RTL', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiText.rich(
+              TextSpan(children: [
+                TextSpan(text: 'مرحبا '),
+                TextSpan(text: 'بالعالم'),
+              ]),
+            ),
+          ),
+        ),
+      );
+      final BidiText bidiText = tester.widget(find.byType(BidiText));
+      expect(bidiText.textDirection, TextDirection.rtl);
+    });
+
+    testWidgets('Empty InlineSpan returns null direction',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiText.rich(TextSpan(text: '')),
+          ),
+        ),
+      );
+      final BidiText bidiText = tester.widget(find.byType(BidiText));
+      expect(bidiText.textDirection, isNull);
+    });
+
+    testWidgets('sampleLength applies to rich text extraction',
+        (WidgetTester tester) async {
+      // RTL word first, many LTR words after
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: BidiText.rich(
+              TextSpan(children: [
+                TextSpan(text: 'مرحبا '),
+                TextSpan(text: 'Hello Hello Hello Hello Hello'),
+              ]),
+              sampleLength: 6, // Only first 6 chars — the Arabic word
+            ),
+          ),
+        ),
+      );
+      final BidiText bidiText = tester.widget(find.byType(BidiText));
+      expect(bidiText.textDirection, TextDirection.rtl);
+    });
+  });
 }
