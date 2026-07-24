@@ -11,6 +11,7 @@ library flutter_bidi_text;
 
 // Reexport the main widget classes
 export 'package:flutter_bidi_text/bidi_rich_text.dart';
+export 'package:flutter_bidi_text/bidi_selectable_text.dart';
 export 'package:flutter_bidi_text/bidi_text.dart';
 export 'package:flutter_bidi_text/bidi_text_field.dart';
 export 'package:flutter_bidi_text/bidi_text_form_field.dart';
