@@ -8,10 +8,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with English text (LTR)
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'Hello world',
                 style: TextStyle(color: Colors.black),
               ),
@@ -33,10 +33,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with Arabic text (RTL)
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'مرحبا بالعالم',
                 style: TextStyle(color: Colors.black),
               ),
@@ -58,10 +58,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with mixed text (more English than Arabic)
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'Hello world with some ',
                 style: TextStyle(color: Colors.black),
                 children: [
@@ -90,10 +90,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with mixed text (more Arabic than English)
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'مرحبا بالعالم هذا نص طويل ',
                 style: TextStyle(color: Colors.black),
                 children: [
@@ -122,10 +122,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with deeply nested TextSpans
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'First level ',
                 style: TextStyle(color: Colors.black),
                 children: [
@@ -159,10 +159,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with deeply nested TextSpans
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'المستوى الأول ',
                 style: TextStyle(color: Colors.black),
                 children: [
@@ -195,10 +195,10 @@ void main() {
     testWidgets('Empty TextSpan defaults to LTR', (WidgetTester tester) async {
       // Build the widget with empty text
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: '',
                 style: TextStyle(color: Colors.black),
               ),
@@ -220,10 +220,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with TextSpan that has no text, only children
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 style: TextStyle(color: Colors.black),
                 children: [
                   TextSpan(text: 'Hello '),
@@ -251,10 +251,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with TextSpan containing WidgetSpan
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'Hello ',
                 style: TextStyle(color: Colors.black),
                 children: [
@@ -282,10 +282,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with a long mixed text but limited sample length
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text:
                     'Hello world this is a very long English text that goes on and on مرحبا بالعالم',
                 style: TextStyle(color: Colors.black),
@@ -309,10 +309,10 @@ void main() {
         (WidgetTester tester) async {
       // Build the widget with custom properties
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(
             body: BidiRichText(
-              text: const TextSpan(
+              text: TextSpan(
                 text: 'Hello world',
                 style: TextStyle(color: Colors.blue, fontSize: 20),
               ),

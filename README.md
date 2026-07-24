@@ -13,15 +13,14 @@ A Flutter package that provides text widgets with automatic bidirectional (RTL/L
 ## Features
 
 - **Automatic Direction Detection**: Text direction is automatically determined based on content.
-- **Direction Change Callbacks**: Be notified when text direction changes.
-- **Text Widget Types**:
-  - `BidiText`: A drop-in replacement for Flutter's `Text` widget
-  - `BidiRichText`: A drop-in replacement for Flutter's `RichText` widget with `TextSpan` support
-  - `BidiTextField`: An input field with automatic direction detection
-  - `BidiTextFormField`: A form field with automatic direction detection
+- **Drop-in Replacements**: `BidiText`, `BidiRichText`, `BidiSelectableText`, `BidiTextField`, and `BidiTextFormField` — replace existing widgets with a `Bidi` prefix.
+- **`BidiText.rich()`**: Named constructor mirroring `Text.rich` for styled spans with auto-direction.
+- **`BidiSelectableText`**: Selectable read-only text with auto-direction, mirroring `SelectableText` and `SelectableText.rich`.
+- **Direction Change Callbacks**: Get notified when text direction changes with `onDirectionChanged`.
+- **Configurable Sample Length**: Optimize performance by limiting direction analysis to the first N characters.
+- **Works with All Languages**: Supports RTL languages (Arabic, Hebrew, Persian, Urdu, etc.) alongside LTR languages.
 - **Support for Mixed Content**: Handles mixed RTL/LTR content intelligently.
 - **Configurable Sampling**: Control how much text is analyzed for direction detection.
-- **Complete Drop-in Replacement**: All widgets inherit from Flutter's standard widgets, so they support all the same properties and can be used as direct replacements.
 
 ## Why Use flutter_bidi_text?
 
@@ -72,6 +71,32 @@ For a deeper understanding of bidirectional text handling, see:
 - [Bidirectional text on Wikipedia](https://en.wikipedia.org/wiki/Bidirectional_text)
 - [Unicode Bidirectional Algorithm (UAX #9)](https://www.unicode.org/reports/tr9/)
 - [W3C Guidelines on Bidirectional Text](https://www.w3.org/International/articles/inline-bidi-markup/)
+
+## Migration Guide — v2.0.0
+
+> [!IMPORTANT]
+> v2.0.0 is a **minimal-impact breaking change**. Constructor APIs and all
+> widget behaviour are identical to v1.x. Only the Dart type hierarchy changed.
+
+All `Bidi*` widgets now extend `StatelessWidget` / `StatefulWidget` instead of
+their Flutter counterparts. This means:
+
+```dart
+// ❌ BEFORE (v1.x) — will now be false
+if (myWidget is TextField) { ... }   // BidiTextField
+if (myWidget is Text)      { ... }   // BidiText
+if (myWidget is RichText)  { ... }   // BidiRichText
+
+// ✅ AFTER (v2.0.0) — use the Bidi type directly
+if (myWidget is BidiTextField) { ... }
+if (myWidget is BidiText)      { ... }
+if (myWidget is BidiRichText)  { ... }
+```
+
+If you never used `is`/`as` type checks on these widgets (the common case),
+**no code changes are required**.
+
+---
 
 ## Installation
 

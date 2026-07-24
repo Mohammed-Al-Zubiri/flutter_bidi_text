@@ -5,10 +5,60 @@ All notable changes to the flutter_bidi_text package will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.0 - 2026-07-24
+
+### BREAKING CHANGES
+
+All four `Bidi*` widgets now extend `StatelessWidget` or `StatefulWidget` instead
+of their Flutter counterparts (`Text`, `RichText`, `TextField`). All **behaviour
+and constructor APIs are identical** — only the Dart type hierarchy changed.
+
+If your code uses `is`/`as` type checks on these widgets, update them:
+
+| Old (broken) | Fix |
+|---|---|
+| `widget is Text` | `widget is BidiText` |
+| `widget is RichText` | `widget is BidiRichText` |
+| `widget is TextField` | `widget is BidiTextField` |
+
+### Added
+- `BidiSelectableText` widget — selectable text with auto direction detection,
+  mirroring `SelectableText` and `SelectableText.rich`
+- `BidiText.rich(InlineSpan)` named constructor — drop-in for `Text.rich`
+- pub.dev `topics` field for improved discoverability:
+  `bidi`, `rtl`, `text`, `internationalization`, `multilingual`
+
+### Fixed
+- **Critical**: 8 constructor parameters in `BidiTextField` were silently
+  dropped and never forwarded to the inner `TextField`:
+  `groupId`, `undoController`, `statesController`, `ignorePointers`,
+  `cursorOpacityAnimates`, `cursorErrorColor`, `onTapAlwaysCalled`,
+  `contentInsertionConfiguration`
+- `canRequestFocus` (deprecated Flutter 3.27) replaced by
+  `stylusHandwritingEnabled` in `BidiTextField` and `BidiTextFormField`
+- HTTPS URLs (`https://`) now correctly detected as weakly LTR (was `http://` only)
+- `_LTR_CHARS` / `_RTL_CHARS` regex strings now use proper Dart Unicode escapes
+  instead of fragile double-escaped raw strings
+- `onDirectionChanged` doc comment corrected: callback always receives a
+  non-null `TextDirection` (falls back to `Directionality.of(context)`)
+- README callback type signature fixed: `(TextDirection direction)` not `(TextDirection? direction)`
+- Example app: deprecated `primarySwatch` replaced with `ColorScheme.fromSeed`
+- `BidiText` and `BidiRichText` no longer import `package:flutter/material.dart`
+  (proactive step ahead of Flutter's Material decoupling initiative)
+
+### Changed
+- `flutter_lints` upgraded from `^5.0.0` to `^6.0.0`
+- All `Bidi*` widgets now use composition instead of inheritance
+- `BidiHelper` RegExp patterns are now pre-compiled as `static final` fields,
+  improving performance for repeated direction detection calls
+
+---
+
 ## 1.1.2 - 2025-11-25
 
 ### Changed
-- Optimized `BidiHelper` class by pre-compiling RegExp patterns as static final fields, improving performance during text direction detection
+- Optimized `BidiHelper` class by pre-compiling RegExp patterns as static final
+  fields, improving performance during text direction detection
 
 ### Fixed
 - Updated URL detection pattern to recognize both HTTP and HTTPS URLs as LTR content
