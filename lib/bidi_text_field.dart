@@ -4,94 +4,102 @@ import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bidi_text/helpers/bidi_helper.dart';
 
 /// A text field widget that automatically detects and sets text direction based on content.
 ///
-/// `BidiTextField` extends Flutter's standard [TextField] widget but automatically determines
-/// whether the text should be displayed in right-to-left (RTL) or left-to-right (LTR)
-/// direction based on the content of the text itself.
+/// `BidiTextField` is a [StatefulWidget] that wraps Flutter's standard [TextField]
+/// and automatically determines whether the text should be displayed in
+/// right-to-left (RTL) or left-to-right (LTR) direction based on its content.
 ///
-/// This is particularly useful for applications that support multiple languages with
-/// different text directions, as it eliminates the need to manually specify direction.
+/// This is particularly useful for applications that support multiple languages
+/// with different text directions, as it eliminates the need to manually specify
+/// direction.
+///
+/// ## Breaking change (v2.0.0)
+/// `BidiTextField` no longer extends [TextField]. It extends [StatefulWidget]
+/// and builds a [TextField] internally. If your code relied on
+/// `bidiTextFieldInstance is TextField` type checks, update them —
+/// all widget behaviour is identical.
 ///
 /// Example:
 ///
 /// ```dart
 /// BidiTextField(
 ///   decoration: InputDecoration(hintText: 'Enter text'),
-///   onDirectionChanged: (direction) {
+///   onDirectionChanged: (TextDirection direction) {
 ///     print('Text direction changed to: $direction');
 ///   },
 /// )
 /// ```
-class BidiTextField extends TextField {
+class BidiTextField extends StatefulWidget {
   const BidiTextField({
     super.key,
-    super.groupId = EditableText,
-    super.controller,
-    super.focusNode,
-    super.undoController,
-    super.decoration = const InputDecoration(),
-    super.keyboardType,
-    super.textInputAction,
-    super.textCapitalization = TextCapitalization.none,
-    super.style,
-    super.strutStyle,
-    super.textAlign = TextAlign.start,
-    super.textAlignVertical,
-    super.textDirection,
-    super.readOnly = false,
-    super.showCursor,
-    super.autofocus = false,
-    super.statesController,
-    super.obscuringCharacter = '•',
-    super.obscureText = false,
-    super.autocorrect = true,
-    super.smartDashesType,
-    super.smartQuotesType,
-    super.enableSuggestions = true,
-    super.maxLines = 1,
-    super.minLines,
-    super.expands = false,
-    super.maxLength,
-    super.maxLengthEnforcement,
-    super.onChanged,
-    super.onEditingComplete,
-    super.onSubmitted,
-    super.onAppPrivateCommand,
-    super.inputFormatters,
-    super.enabled,
-    super.ignorePointers,
-    super.cursorWidth = 2.0,
-    super.cursorHeight,
-    super.cursorRadius,
-    super.cursorOpacityAnimates,
-    super.cursorColor,
-    super.cursorErrorColor,
-    super.selectionHeightStyle = ui.BoxHeightStyle.tight,
-    super.selectionWidthStyle = ui.BoxWidthStyle.tight,
-    super.keyboardAppearance,
-    super.scrollPadding = const EdgeInsets.all(20.0),
-    super.dragStartBehavior = DragStartBehavior.start,
-    super.enableInteractiveSelection,
-    super.selectionControls,
-    super.onTap,
-    super.onTapAlwaysCalled = false,
-    super.onTapOutside,
-    super.mouseCursor,
-    super.buildCounter,
-    super.scrollController,
-    super.scrollPhysics,
-    super.autofillHints = const <String>[],
-    super.contentInsertionConfiguration,
-    super.clipBehavior = Clip.hardEdge,
-    super.restorationId,
-    super.enableIMEPersonalizedLearning = true,
-    super.contextMenuBuilder = _defaultContextMenuBuilder,
-    super.stylusHandwritingEnabled = true,
-    super.spellCheckConfiguration,
-    super.magnifierConfiguration,
+    this.groupId = EditableText,
+    this.controller,
+    this.focusNode,
+    this.undoController,
+    this.decoration = const InputDecoration(),
+    this.keyboardType,
+    this.textInputAction,
+    this.textCapitalization = TextCapitalization.none,
+    this.style,
+    this.strutStyle,
+    this.textAlign = TextAlign.start,
+    this.textAlignVertical,
+    this.textDirection,
+    this.readOnly = false,
+    this.showCursor,
+    this.autofocus = false,
+    this.statesController,
+    this.obscuringCharacter = '•',
+    this.obscureText = false,
+    this.autocorrect = true,
+    this.smartDashesType,
+    this.smartQuotesType,
+    this.enableSuggestions = true,
+    this.maxLines = 1,
+    this.minLines,
+    this.expands = false,
+    this.maxLength,
+    this.maxLengthEnforcement,
+    this.onChanged,
+    this.onEditingComplete,
+    this.onSubmitted,
+    this.onAppPrivateCommand,
+    this.inputFormatters,
+    this.enabled,
+    this.ignorePointers,
+    this.cursorWidth = 2.0,
+    this.cursorHeight,
+    this.cursorRadius,
+    this.cursorOpacityAnimates,
+    this.cursorColor,
+    this.cursorErrorColor,
+    this.selectionHeightStyle = ui.BoxHeightStyle.tight,
+    this.selectionWidthStyle = ui.BoxWidthStyle.tight,
+    this.keyboardAppearance,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.enableInteractiveSelection,
+    this.selectionControls,
+    this.onTap,
+    this.onTapAlwaysCalled = false,
+    this.onTapOutside,
+    this.mouseCursor,
+    this.buildCounter,
+    this.scrollController,
+    this.scrollPhysics,
+    this.autofillHints = const <String>[],
+    this.contentInsertionConfiguration,
+    this.clipBehavior = Clip.hardEdge,
+    this.restorationId,
+    this.enableIMEPersonalizedLearning = true,
+    this.contextMenuBuilder = _defaultContextMenuBuilder,
+    this.stylusHandwritingEnabled = true,
+    this.spellCheckConfiguration,
+    this.magnifierConfiguration,
     this.sampleLength = 50,
     this.onDirectionChanged,
   })  : assert(obscuringCharacter.length == 1),
@@ -110,7 +118,6 @@ class BidiTextField extends TextField {
         assert(maxLength == null ||
             maxLength == TextField.noMaxLength ||
             maxLength > 0),
-        // Assert the following instead of setting it directly to avoid surprising the user by silently changing the value they set.
         assert(
           !identical(textInputAction, TextInputAction.newline) ||
               maxLines == 1 ||
@@ -118,14 +125,112 @@ class BidiTextField extends TextField {
           'Use keyboardType TextInputType.multiline when using TextInputAction.newline on a multiline TextField.',
         );
 
+  // ── Identity / focus ────────────────────────────────────────────────────────
+  final Object groupId;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final UndoHistoryController? undoController;
+
+  // ── Decoration / appearance ──────────────────────────────────────────────────
+  final InputDecoration? decoration;
+  final TextStyle? style;
+  final StrutStyle? strutStyle;
+  final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
+  final TextDirection? textDirection;
+
+  // ── Input behaviour ──────────────────────────────────────────────────────────
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final TextCapitalization textCapitalization;
+  final bool readOnly;
+  final bool? showCursor;
+  final bool autofocus;
+  final WidgetStatesController? statesController;
+  final String obscuringCharacter;
+  final bool obscureText;
+  final bool autocorrect;
+  final SmartDashesType? smartDashesType;
+  final SmartQuotesType? smartQuotesType;
+  final bool enableSuggestions;
+
+  // ── Line limits ──────────────────────────────────────────────────────────────
+  final int? maxLines;
+  final int? minLines;
+  final bool expands;
+  final int? maxLength;
+  final MaxLengthEnforcement? maxLengthEnforcement;
+
+  // ── Callbacks ────────────────────────────────────────────────────────────────
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onEditingComplete;
+  final ValueChanged<String>? onSubmitted;
+  final AppPrivateCommandCallback? onAppPrivateCommand;
+
+  // ── Formatters ───────────────────────────────────────────────────────────────
+  final List<TextInputFormatter>? inputFormatters;
+
+  // ── Enable / pointer ─────────────────────────────────────────────────────────
+  final bool? enabled;
+  final bool? ignorePointers;
+
+  // ── Cursor ───────────────────────────────────────────────────────────────────
+  final double cursorWidth;
+  final double? cursorHeight;
+  final Radius? cursorRadius;
+  final bool? cursorOpacityAnimates;
+  final Color? cursorColor;
+  final Color? cursorErrorColor;
+
+  // ── Selection styling ────────────────────────────────────────────────────────
+  final ui.BoxHeightStyle selectionHeightStyle;
+  final ui.BoxWidthStyle selectionWidthStyle;
+
+  // ── Keyboard / scroll ────────────────────────────────────────────────────────
+  final Brightness? keyboardAppearance;
+  final EdgeInsets scrollPadding;
+  final DragStartBehavior dragStartBehavior;
+  final bool? enableInteractiveSelection;
+  final TextSelectionControls? selectionControls;
+
+  // ── Tap ──────────────────────────────────────────────────────────────────────
+  final GestureTapCallback? onTap;
+  final bool onTapAlwaysCalled;
+  final TapRegionCallback? onTapOutside;
+
+  // ── Mouse / accessibility ────────────────────────────────────────────────────
+  final MouseCursor? mouseCursor;
+  final InputCounterWidgetBuilder? buildCounter;
+
+  // ── Scroll ───────────────────────────────────────────────────────────────────
+  final ScrollController? scrollController;
+  final ScrollPhysics? scrollPhysics;
+
+  // ── Autofill / content insertion ─────────────────────────────────────────────
+  final Iterable<String>? autofillHints;
+  final ContentInsertionConfiguration? contentInsertionConfiguration;
+
+  // ── Clip / restoration ───────────────────────────────────────────────────────
+  final Clip clipBehavior;
+  final String? restorationId;
+
+  // ── Platform-specific ────────────────────────────────────────────────────────
+  final bool enableIMEPersonalizedLearning;
+  final EditableTextContextMenuBuilder? contextMenuBuilder;
+  final bool stylusHandwritingEnabled;
+  final SpellCheckConfiguration? spellCheckConfiguration;
+  final TextMagnifierConfiguration? magnifierConfiguration;
+
+  // ── Bidi-specific ────────────────────────────────────────────────────────────
+
   /// Maximum number of characters to sample for direction detection.
   ///
   /// If null, the entire text will be analyzed.
-  /// If specified, only up to this many characters from the beginning of the text
-  /// will be used to determine directionality.
+  /// If specified, only up to this many characters from the beginning of the
+  /// text will be used to determine directionality.
   ///
-  /// Default is 50 characters, which provides a good balance between performance
-  /// and accuracy for most text.
+  /// Default is 50 characters, which provides a good balance between
+  /// performance and accuracy for most text.
   final int? sampleLength;
 
   /// Callback that is called when the text direction changes.
@@ -153,22 +258,19 @@ class _BidiTextFieldState extends State<BidiTextField> {
   late TextEditingController _controller;
   TextDirection? _textDirection;
   Timer? _debounceTimer;
-  String _previousSample = ''; // Store previous sample for comparison
-  bool _initialDirectionSet = false; // Track initial direction setup
+  String _previousSample = '';
+  bool _initialDirectionSet = false;
 
   @override
   void initState() {
     super.initState();
     _controller = widget.controller ?? TextEditingController();
-
-    // Listen for changes to update direction and alignment
     _controller.addListener(_onTextChanged);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     if (!_initialDirectionSet) {
       if (_controller.text.isNotEmpty) {
         _updateTextDirection(_controller.text);
@@ -193,7 +295,6 @@ class _BidiTextFieldState extends State<BidiTextField> {
     _debounceTimer?.cancel();
     _controller.removeListener(_onTextChanged);
     if (widget.controller == null) {
-      // Only dispose the controller if we created it
       _controller.dispose();
     }
     super.dispose();
@@ -207,8 +308,6 @@ class _BidiTextFieldState extends State<BidiTextField> {
       final currentSample = text.isEmpty
           ? ''
           : text.substring(0, math.min(sampleSize, text.length));
-
-      // Only update direction if the relevant portion of text has changed
       if (currentSample != _previousSample) {
         _previousSample = currentSample;
         _updateTextDirection(text);
@@ -219,15 +318,13 @@ class _BidiTextFieldState extends State<BidiTextField> {
   void _updateTextDirection(String text) {
     final sampleSize = widget.sampleLength ?? text.length;
     final sample = text.substring(0, math.min(sampleSize, text.length));
-    final newDirection = _getTextDirection(sample);
+    final newDirection = BidiHelper.estimateDirectionOfText(sample);
 
     if (_textDirection != newDirection) {
       setState(() {
         _textDirection = newDirection;
       });
-
       if (widget.onDirectionChanged == null) return;
-
       if (newDirection == null) {
         if (mounted) widget.onDirectionChanged!(Directionality.of(context));
       } else {
@@ -241,14 +338,9 @@ class _BidiTextFieldState extends State<BidiTextField> {
     }
   }
 
-  TextDirection? _getTextDirection(String text) {
-    return BidiHelper.estimateDirectionOfText(text);
-  }
-
   @override
   Widget build(BuildContext context) {
     return TextField(
-      key: widget.key,
       groupId: widget.groupId,
       controller: _controller,
       focusNode: widget.focusNode,
